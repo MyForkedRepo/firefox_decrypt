@@ -4,7 +4,7 @@
 PASSWD=$(get_password)
 CMD=$(get_script)
 TEST="$(get_test_data)"
-PAYLOAD="1\n${PASSWD}"
+PAYLOAD="4\n${PASSWD}"
 
 
 diff -u <(echo -e ${PAYLOAD} | ${CMD} ${TEST} | grep -C1 doesntexist || kill $$) <(get_user_data "doesntexist")

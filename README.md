@@ -18,7 +18,7 @@ Thunderbird, although depending on system configuration, the script may fail to
 locate it there.
 
 Alternatively you can install libnss3 (Debian/Ubuntu) or nss (Arch/Gentoo/...).
-libnss3 is part of http://www.mozilla.org/projects/security/pki/nss/
+libnss3 is part of https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS
 
 
 #### Usage
@@ -55,6 +55,13 @@ python firefox_decrypt.py --export-pass
 and **all** existing passwords will be exported after the pattern
 `web/<address>[:<port>]` unless multiple credentials exist for the same website
 in which case `/<login>` is appended.
+The username will be stored on a second line.
+
+Alternatively you can use:
+```
+python firefox_decrypt.py --export-pass --pass-compat browserpass
+```
+to prefix the username with `login: ` for compatibility with the [browserpass](https://github.com/dannyvankooten/browserpass) extension.
 
 There is currently no way of selectively exporting passwords.
 Exporting overwrites existing passwords without warning. Make sure you have a
@@ -105,6 +112,26 @@ Your master password is read from stdin.
     $ PASSWORD=
 
 
+#### Troubleshooting
+
+If you run into problems please try running `firefox_decrypt` in high verbosity mode by calling it with:
+
+```
+python firefox_decrypt.py -vvv
+```
+
+If the output doesn't help you identify the cause and a solution to the problem please file a bug report including the verbose output.  
+**NOTE**: Be aware that your profile password as well as other passwords may be visible in the output so make sure you remove any sensitive data before including it in the bug report.
+
+##### Windows
+
+If you are on Windows, make sure your Python and Firefox are both 32 or 64 bits.  
+If you mix architectures the code will fail. More information on issue [#8](https://github.com/unode/firefox_decrypt/issues/8).
+
+##### Darwin/MacOS
+
+If you get the error described in [#14](https://github.com/unode/firefox_decrypt/issues/14) when loading `libnss3` consider installing `nss` using brew or other package manager.
+
 #### Testing
 
 If you wish to run the testsuite locally chdir into `tests/` and run `./run_all`
@@ -117,4 +144,4 @@ system, including linux distribution, and version of libnss/firefox.
 
 It is much appreciated.
 
-Current: [![Build Status](https://travis-ci.org/Unode/firefox_decrypt.svg?branch=master)](https://travis-ci.org/Unode/firefox_decrypt)
+Status: [![Build Status](https://travis-ci.org/unode/firefox_decrypt.svg?branch=master)](https://travis-ci.org/unode/firefox_decrypt) [![wercker status](https://app.wercker.com/status/d9b714c5d195dd9e7582e8cd6f463982/m/master "wercker status")](https://app.wercker.com/project/byKey/d9b714c5d195dd9e7582e8cd6f463982)

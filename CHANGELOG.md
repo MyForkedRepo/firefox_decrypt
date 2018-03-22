@@ -1,5 +1,29 @@
 #### Changelog
 
+##### git
+- Add compatibility with browserpass via `--pass-compat=browserpass`
+
+##### 0.7.0
+- Fix PK11 slot memory leak
+- Configurable pass-export prefix via `--pass-prefix`
+- Deprecate `--tabular`, add `--format` parameter and support CSV format
+- Fix minor bug with formatting of profile selection prompt
+- Support several default locations for libnss on Darwin
+- Support for password-store in SQLite format starting with Firefox v59
+
+##### 0.6.2
+- Add `--tabular` output
+
+##### 0.6.1
+- Fix a bug on `--version` affecting primarily Python 3 (@criztovyl)
+
+##### 0.6
+- Fix a bug leading to segmentation fault crashes on newer platforms
+- Passing `--version` now displays firefox\_decrypt's version
+
+##### 0.5.4
+- Search for NSS on additional folders when on Windows
+
 ##### 0.5.3
 - Compatibility improvements with Windows and OSX
 

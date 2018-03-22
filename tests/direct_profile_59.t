@@ -2,7 +2,8 @@
 . bash_tap_fd.sh
 
 PASSWD=$(get_password)
-CMD="$(get_script) $(get_test_data) -nc 1"
+CMD=$(get_script)
+TEST="$(get_test_data)/test_profile_firefox_59/"
 
 
 diff -u <(echo ${PASSWD} | ${CMD} ${TEST} | grep -C1 doesntexist || kill $$) <(get_user_data "doesntexist")
