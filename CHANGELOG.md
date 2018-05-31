@@ -2,6 +2,11 @@
 
 ##### git
 - Add compatibility with browserpass via `--pass-compat=browserpass`
+- Add compatibility mode `username` for a `username:` prefix
+- Add `--pass-cmd` to allow specifying pass's location or script name.
+- Using `--pass-prefix=''` prevents creation of a prefix: `web/address/...` becomes `address/...`
+- Fix an encoding bug due to non-ASCII characters leading to a user's profile path
+- Drop support for Python 2 on Windows. Python 3 works fine.
 
 ##### 0.7.0
 - Fix PK11 slot memory leak

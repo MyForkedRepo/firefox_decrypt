@@ -1,3 +1,7 @@
+### Firefox Decrypt
+
+[![Build Status](https://travis-ci.org/unode/firefox_decrypt.svg?branch=master)](https://travis-ci.org/unode/firefox_decrypt) [![wercker status](https://app.wercker.com/status/d9b714c5d195dd9e7582e8cd6f463982/m/master "wercker status")](https://app.wercker.com/project/byKey/d9b714c5d195dd9e7582e8cd6f463982)
+
 #### About
 
 Firefox Decrypt is a tool to extract passwords from Firefox/Thunderbird
@@ -11,7 +15,7 @@ requested but can be left blank.
 This tool does not try to crack or brute-force the Master Password in any way.
 If the Master Password is not known it will simply fail to recover any data.
 
-This script is written in Python and is compatible with versions 2.7+ and 3.4+.
+This script is written in Python and is compatible with versions 2.7+ and 3.4+. On Windows only Python 3 is supported.
 
 Additionally it requires access to libnss3 which is part of Firefox and
 Thunderbird, although depending on system configuration, the script may fail to
@@ -144,4 +148,6 @@ system, including linux distribution, and version of libnss/firefox.
 
 It is much appreciated.
 
-Status: [![Build Status](https://travis-ci.org/unode/firefox_decrypt.svg?branch=master)](https://travis-ci.org/unode/firefox_decrypt) [![wercker status](https://app.wercker.com/status/d9b714c5d195dd9e7582e8cd6f463982/m/master "wercker status")](https://app.wercker.com/project/byKey/d9b714c5d195dd9e7582e8cd6f463982)
+#### Spin-off and derived works
+
+* [firepwned](https://github.com/christophetd/firepwned#how-it-works) - check if your passwords have been involved in a known data leak
