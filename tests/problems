@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from __future__ import print_function
 import sys
@@ -52,8 +52,8 @@ if __name__ == "__main__":
     unexpected = defaultdict(int)
     passed = defaultdict(int)
 
-    file = re.compile("^# (?:./)?(\S+\.t)(?:\.exe)?$")
-    timestamp = re.compile("^# (\d+(?:\.\d+)?) ==>.*$")
+    file = re.compile(r"^# (?:./)?(\S+\.t)(?:\.exe)?$")
+    timestamp = re.compile(r"^# (\d+(?:\.\d+)?) ==>.*$")
     start = None
     stop = None
 
@@ -61,7 +61,11 @@ if __name__ == "__main__":
         for line in fh:
             if start is None:
                 # First line contains the starting timestamp
-                start = float(timestamp.match(line).group(1))
+                match = timestamp.match(line)
+                if match:
+                    start = float(match.group(1))
+                else:
+                    start = 0
                 continue
 
             match = file.match(line)
@@ -74,7 +78,7 @@ if __name__ == "__main__":
             if line.startswith("not "):
                 errors[filename] += 1
 
-            if line.startswith("skip "):
+            if line.startswith("# SKIP:"):
                 skipped[filename] += 1
 
             if line.startswith("# EXPECTED_FAILURE:"):
@@ -84,14 +88,14 @@ if __name__ == "__main__":
                 unexpected[filename] += 1
 
         # Last line contains the ending timestamp
-        stop = float(timestamp.match(line).group(1))
-
-    # Remove expected failures from the skipped tests category
-    for filename, value in expected.items():
-        if skipped[filename] == value:
-            del skipped[filename]
+        match = timestamp.match(line)
+        if match:
+            stop = float(match.group(1))
         else:
-            skipped[filename] -= value
+            stop = 0
+
+    if start is None:
+        start = 0
 
     v = "{0:>5d}"
     passed_str = "Passed:" + pad(24)

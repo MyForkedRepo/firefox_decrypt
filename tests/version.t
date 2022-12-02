@@ -1,10 +1,22 @@
-#!/usr/bin/env bash
-. bash_tap_fd.sh
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-CMD="$(get_script) --version"
-EXPECTED_VERSION="get_internal_version"
+import unittest
+from simpletap.fdecrypt import lib
 
-[ "x${EXPECTED_VERSION}" != "x" ]
-diff -u <(cd / && ${CMD} 2>&1 || kill $$) <($EXPECTED_VERSION)
+
+class TestVersion(unittest.TestCase):
+    def test_version(self):
+        cmd = lib.get_script() + ["--version"]
+
+        output = lib.run(cmd, workdir="/")
+        expected = lib.get_internal_version()
+
+        self.assertEqual(output, expected)
+
+
+if __name__ == "__main__":
+    from simpletap import TAPTestRunner
+    unittest.main(testRunner=TAPTestRunner(buffer=True), exit=False)
 
 # vim: ai sts=4 et sw=4
