@@ -1,6 +1,7 @@
 ### Firefox Decrypt
 
 ![GitHub Actions status](https://github.com/unode/firefox_decrypt/actions/workflows/main.yml/badge.svg)
+[![Gitmoji badge](https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=flat-square)](https://gitmoji.dev)
 
 As of 1.0.0 Python 3.9+ is required. Python 2 is no longer supported.
 If you encounter a problem, try the latest [release](https://github.com/unode/firefox_decrypt/releases) or check open issues for ongoing work.
@@ -82,7 +83,29 @@ You can also choose from one of the supported formats with `--format`:
 * `json` - a machine compatible format - see [JSON](https://en.wikipedia.org/wiki/JSON)
 * `pass` - a special output format that directly calls to the [passwordstore.org](https://www.passwordstore.org) command to export passwords (*). See also `--pass-*` options.
 
-(*) `pass` can produce unintended consequences. Make sure to backup your password store before using this.
+(*) `pass` can produce unintended consequences. Make sure to backup your password store before using this option.
+
+##### Specify NSS library location
+
+In order to decode your passwords, Firefox Decrypt uses a series of heuristics to try to locate a compatible [NSS library](https://developer.mozilla.org/docs/Mozilla/Projects/NSS) on your system.
+As this approach can sometimes fail, starting with version 1.1.1 of Firefox Decrypt you can now define the `NSS_LIB_PATH` environment variable to manually specify the location of the library.
+This location will be prioritized and if no compatible library is found, the script will continue with the built-in heuristics.
+
+```
+# On Linux it will look for libnss3.so in /opt/nss/lib/
+# On Mac it will look for libnss3.dylib
+NSS_LIB_PATH=/opt/nss/lib/ python firefox_decrypt.py
+
+# On Windows it will look for nss3.dll
+set NSS_LIB_PATH=D:\NSS\lib\ && python firefox_decrypt.py
+```
+
+You can confirm if this was successful by running the script in high-verbosity mode (`-vv`) and look for the `Loaded NSS` message after `Loading NSS`:
+
+```
+(...) DEBUG - Loading NSS library from /opt/nss/lib/libnss3.so
+(...) DEBUG - Loaded NSS library from /opt/nss/lib/libnss3.so
+```
 
 ##### Non-interactive mode
 
@@ -163,6 +186,19 @@ There is currently no way to selectively export passwords.
 
 Exporting will overwrite existing passwords without warning. Ensure you have a backup or are using the `pass git` functionality.
 
+##### Non fatal password decryption
+
+By default, encountering a corrupted username or password will abort decryption.
+Since version `1.1.0` there is now `--non-fatal-decryption` that tolerates individual failures.
+
+    $ python firefox_decrypt.py --non-fatal-decryption
+    (...)
+    Website:   https://github.com
+    Username: '*** decryption failed ***'
+    Password: '*** decryption failed ***'
+
+which can also be combined with any of the above `--format` options.
+
 #### Troubleshooting
 
 If a problem occurs, please try `firefox_decrypt` in high verbosity mode by calling it with:
@@ -175,6 +211,10 @@ If the output does not help you to identify the cause and a solution to the prob
 
 - your profile password, as well as other passwords, may be visible in the output – so **please remove any sensitive data** before sharing the output.
 
+##### Silencing error messages
+
+Logging messages above warning level are included in the standard error output by default as these can be useful to troubleshoot failures.
+If you wish to omit this information append ` 2>/dev/null` to your command on UNIX and ` 2> nul` on Windows.
 
 ##### Windows
 
@@ -208,6 +248,13 @@ If tests continue to fail, re-run with `./run_all -v` then please file a bug rep
 
 It is much appreciated.
 
+### Contributors
+
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/github/all-contributors/unode/firefox_decrypt?color=ee8449&style=flat-square)](CONTRIBUTORS.md#contributors)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+
+See [CONTRIBUTORS.md](CONTRIBUTORS.md) for a complete list of contributions
 
 ### Spin-off, derived and related works
 

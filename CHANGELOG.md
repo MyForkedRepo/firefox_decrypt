@@ -1,9 +1,19 @@
 #### Changelog
 
-##### 1.0.0+git
+##### 1.1.1+git
+- Include Darwin homebrew path in nss search locations
+
+##### 1.1.1
+- Fix unhandled exception with deleted passwords - see #99
+- Environment variable `NSS_LIB_PATH` can now be used to specify `libnss` location
+
+##### 1.1.0
+- Include `pyproject.toml` to facilitate usage via `pipx`
 - Allow overriding default encoding
 - Add `--pass-always-with-login` to always include /login as part of pass's password path
 - Improve compatibility with `gopass` by explicitly using `pass ls` instead of `pass`
+- Add `--non-fatal-decryption` to attempt decrypting partially corrupt databases instead of aborting on first failure
+- Enable All Contributors framework in project
 
 ##### 1.0.0
 - Improve detection of NSS in Windows and MacOS
